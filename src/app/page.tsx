@@ -28,12 +28,16 @@ function LibrarySearchInterface() {
 
   //  Sync url parameters with local search state dynamically
   useEffect(() => {
-    if (debouncedSearch.trim() && debouncedSearch.trim() !== query) {
-      const newQuery = debouncedSearch.trim();
-      setQuery(newQuery);
+    const trimmed = debouncedSearch.trim();
+    if (trimmed !== query) {
+      setQuery(trimmed);
       
       const params = new URLSearchParams(searchParams.toString());
-      params.set("q", newQuery);
+      if (trimmed) {
+        params.set("q", trimmed);
+      } else {
+        params.delete("q");
+      }
       router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     }
   }, [debouncedSearch, query, pathname, router, searchParams]);

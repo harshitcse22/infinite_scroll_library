@@ -9,6 +9,12 @@ export async function GET(request: Request) {
   const page = searchParams.get('page') || '1';
   const limit = searchParams.get('limit') || '20';
 
+  // OpenLibrary strictly rejects queries under 3 characters with 422 Errors.
+  // We instantly return empty schemas mathematically without crashing the server.
+  if (q.trim().length < 3) {
+    return NextResponse.json({ docs: [], numFound: 0 });
+  }
+
   try {
     // Utilize Axios tightly coupled to the Node environment, completely dodging 
     // Next.js buggy native fetch patches and aggressive edge-caching mechanisms.
