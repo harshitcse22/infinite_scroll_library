@@ -10,6 +10,7 @@ import { BookCardSkeleton } from "./components/BookCardSkeleton";
 import { useDebounce } from "./hooks/useDebounce";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { ThemeToggle } from "./components/ThemeToggle";
+import { BackToTop } from "./components/BackToTop";
 
 const CHIPS = ["Science", "Math", "History", "Fiction", "Programming"];
 
@@ -245,6 +246,9 @@ function LibrarySearchInterface() {
           </div>
         )}
       </main>
+
+      {/* Floating Action Button */}
+      <BackToTop />
     </div>
   );
 }
