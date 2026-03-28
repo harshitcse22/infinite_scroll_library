@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export interface Book {
   key: string;
   title: string;
@@ -19,15 +17,17 @@ export const fetchBooks = async (
   limit: number = 20
 ): Promise<FetchBooksResponse> => {
   try {
-    const response = await axios.get('https://openlibrary.org/search.json', {
-      params: {
-        q: query,
-        page: page,
-        limit: limit,
-      },
-    });
+    const urlStr = `/api/books?q=${encodeURIComponent(query)}&page=${page}&limit=${limit}`;
 
-    const { docs, numFound } = response.data;
+    // Firing request to our secure Next.js backend proxy instead of raw external API
+    const response = await fetch(urlStr);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const { docs = [], numFound = 0 } = data;
 
     // Determine if there is a next page
     const hasNextPage = page * limit < numFound;
