@@ -17,7 +17,7 @@ export const fetchBooks = async (
   limit: number = 20
 ): Promise<FetchBooksResponse> => {
   try {
-    const urlStr = `/api/books?q=${encodeURIComponent(query)}&page=${page}&limit=${limit}`;
+    const urlStr = `/api/search?q=${encodeURIComponent(query)}&page=${page}&limit=${limit}`;
 
     // Firing request to our secure Next.js backend proxy instead of raw external API
     const response = await fetch(urlStr);
